@@ -30,3 +30,5 @@ Route::get('/login', function () {
 });
 
 Route::get('/posts', [PostController::class, 'index']);
+
+Route::get('/example', [nama_kontroller::class,'nama_method']);
