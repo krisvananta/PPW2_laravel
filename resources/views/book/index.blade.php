@@ -1,7 +1,20 @@
 @extends('layouts.layout')
 
 @section('content')
-<table class="table table-striped table-bordered table-hover">
+
+@if (Session::has('success'))
+<div class="alert alert-success">{{ Session::get('success') }}</div>
+@endif
+@if (Session::has('error'))
+<div class="alert alert-danger">{{ Session::get('error') }}</div>
+@endif
+
+<form action="{{ route('book.search') }}" method="get">
+    @csrf
+    <input type="text" name="word" class="form-control" placeholder="Cari ...." style="width: 30%; display: inline; margin-top: 10px; margin-bottom: 10px; float: right;">
+</form>
+
+<table class="table table-striped table-bordered table-hover datatable">
     <thead class="thead-dark">
         <tr>
             <th scope="">No</th>
@@ -25,11 +38,7 @@
                 <td>{{ $book->author }}</td>
                 <td>{{ "Rp. " . number_format($book->price, 2, ',', '.') }}</td>
                 <td>
-                    @if ($book->date_published instanceof \Carbon\Carbon)
-                        {{ $book->date_published->format('d/m/y') }}
-                    @else
-                        {{ $book->date_published ?? '-' }}
-                    @endif
+                        {{ \Carbon\Carbon::parse ($book->date_published)->format('d/m/Y') }}
                 </td>
                 <td>
                     <!-- Aksi buttons can be added here -->
@@ -54,12 +63,11 @@
     </tbody>
 </table>
 
+<div>{{ $book_data->links() }}</div>
+<div><strong>Jumlah Buku: {{ $book_number }}</strong></div>
+
 <a href="{{ route('book.create') }}" class="btn btn-primary float-end">Add Book</a>
 
-<div class="mt-3">
-    <p>Total Data Buku: {{ $book_quantity }}</p>
-</div>
-<div class="mt-3">
-    <p>Total Harga Buku: {{ $total_price }}</p>
-</div>
+
 @endsection
+

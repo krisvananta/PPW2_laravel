@@ -49,3 +49,6 @@ Route::post('/book/{id}/edit', [BookController::class, 'edit'])->name('book.edit
 
 // route to update edited data
 Route::put('/book/{id}/update', [BookController::class, 'update'])->name('book.update');
+
+// route for search
+Route::get('/book/search', 'BookController@search')->name('book.search');
